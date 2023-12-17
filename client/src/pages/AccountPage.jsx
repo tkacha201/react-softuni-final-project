@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import ExperiencesPage from "./ExperiencesPage";
 
 const AccountPage = () => {
   const [redirect, setRedirect] = useState(null);
@@ -29,9 +30,11 @@ const AccountPage = () => {
   }
 
   function linkClasses(type = null) {
-    let classes = "py-2 px-10";
+    let classes = "py-2 px-10 rounded-full ";
     if (type === subpage) {
-      classes += " bg-primary text-white rounded-full";
+      classes += " bg-primary text-white";
+    } else {
+      classes += " bg-gray-200";
     }
     return classes;
   }
@@ -64,6 +67,7 @@ const AccountPage = () => {
           </button>
         </div>
       )}
+      {subpage === "experiences" && <ExperiencesPage />}
     </div>
   );
 };
