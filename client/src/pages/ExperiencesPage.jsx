@@ -7,7 +7,7 @@ import axios from "axios";
 const ExperiencesPage = () => {
   const [experiences, setExperiences] = useState([]);
   useEffect(() => {
-    axios.get("/experiences").then(({ data }) => {
+    axios.get("/user-experiences").then(({ data }) => {
       setExperiences(data);
     });
   }, []);

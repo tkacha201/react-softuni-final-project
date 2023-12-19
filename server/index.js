@@ -125,6 +125,7 @@ app.post("/experiences", async (req, res) => {
     extraInfo,
     duration,
     maxGroupSize,
+    price,
   } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -138,12 +139,13 @@ app.post("/experiences", async (req, res) => {
       extraInfo,
       duration,
       maxGroupSize,
+      price,
     });
     res.json(ExpObj);
   });
 });
 
-app.get("/experiences", (req, res) => {
+app.get("/user-experiences", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const { id } = userData;
@@ -168,6 +170,7 @@ app.put("/experiences", async (req, res) => {
     extraInfo,
     duration,
     maxGroupSize,
+    price,
   } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -182,11 +185,16 @@ app.put("/experiences", async (req, res) => {
         extraInfo,
         duration,
         maxGroupSize,
+        price,
       });
       await experienceObj.save();
       res.json("ok");
     }
   });
+});
+
+app.get("/experiences", async (req, res) => {
+  res.json(await Experience.find());
 });
 
 app.listen(4000);

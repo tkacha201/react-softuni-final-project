@@ -13,6 +13,7 @@ const experienceSchema = new mongoose.Schema({
   extraInfo: String,
   duration: String,
   maxGroupSize: String,
+  price: Number,
 });
 
 const ExperienceModel = mongoose.model("Experience", experienceSchema);

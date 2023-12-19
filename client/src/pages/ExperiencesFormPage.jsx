@@ -15,6 +15,7 @@ const ExperiencesFormPage = () => {
   const [extraInfo, setExtraInfo] = useState("");
   const [duration, setDuration] = useState("");
   const [maxGroupSize, setMaxGroupSize] = useState("");
+  const [price, setPrice] = useState(100);
   const [redirect, setRedirect] = useState(false);
   useEffect(() => {
     if (!id) {
@@ -30,6 +31,7 @@ const ExperiencesFormPage = () => {
       setExtraInfo(data.extraInfo);
       setDuration(data.duration);
       setMaxGroupSize(data.maxGroupSize);
+      setPrice(data.price);
     });
   }, [id]);
   function inputHeader(text) {
@@ -60,6 +62,7 @@ const ExperiencesFormPage = () => {
       extraInfo,
       duration,
       maxGroupSize,
+      price,
     };
     if (id) {
       await axios.put("/experiences", {
@@ -117,7 +120,7 @@ const ExperiencesFormPage = () => {
           "Duration & Max Group Size",
           "Specify the duration of the experience and the maximum size of the participant group."
         )}
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
           <div>
             <h3 className="mt-2 -mb-1">Duration</h3>
             <input
@@ -134,6 +137,15 @@ const ExperiencesFormPage = () => {
               value={maxGroupSize}
               onChange={(e) => setMaxGroupSize(e.target.value)}
               placeholder="15"
+            />
+          </div>
+          <div>
+            <h3 className="mt-2 -mb-1">Price per person</h3>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="100"
             />
           </div>
         </div>
