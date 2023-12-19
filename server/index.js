@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User.js");
+const Experience = require("./models/Experience.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -111,6 +112,81 @@ app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
     uploadedFiles.push(newPath.replace("uploads\\", ""));
   }
   res.json(uploadedFiles);
+});
+
+app.post("/experiences", async (req, res) => {
+  const { token } = req.cookies;
+  const {
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    duration,
+    maxGroupSize,
+  } = req.body;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const ExpObj = await Experience.create({
+      owner: userData.id,
+      title,
+      address,
+      photos: addedPhotos,
+      description,
+      perks,
+      extraInfo,
+      duration,
+      maxGroupSize,
+    });
+    res.json(ExpObj);
+  });
+});
+
+app.get("/experiences", (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    const { id } = userData;
+    res.json(await Experience.find({ owner: id }));
+  });
+});
+
+app.get("/experiences/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Experience.findById(id));
+});
+
+app.put("/experiences", async (req, res) => {
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    duration,
+    maxGroupSize,
+  } = req.body;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const experienceObj = await Experience.findById(id);
+    if (userData.id === experienceObj.owner.toString()) {
+      experienceObj.set({
+        title,
+        address,
+        photos: addedPhotos,
+        description,
+        perks,
+        extraInfo,
+        duration,
+        maxGroupSize,
+      });
+      await experienceObj.save();
+      res.json("ok");
+    }
+  });
 });
 
 app.listen(4000);

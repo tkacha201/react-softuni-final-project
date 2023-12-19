@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { UserContext } from "../UserContext";
 import { useContext } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import ExperiencesPage from "./ExperiencesPage";
+import AccountNav from "../AccountNav";
 
-const AccountPage = () => {
+const ProfilePage = () => {
   const [redirect, setRedirect] = useState(null);
   const { ready, user, setUser } = useContext(UserContext);
 
@@ -29,36 +29,13 @@ const AccountPage = () => {
     return <Navigate to="/login" />;
   }
 
-  function linkClasses(type = null) {
-    let classes = "py-2 px-10 rounded-full ";
-    if (type === subpage) {
-      classes += " bg-primary text-white";
-    } else {
-      classes += " bg-gray-200";
-    }
-    return classes;
-  }
-
   if (redirect) {
     return <Navigate to={redirect} />;
   }
 
   return (
     <div>
-      <nav className="w-full flex justify-center mt-8 gap-2 mb-8">
-        <Link className={linkClasses("profile")} to={"/account"}>
-          My Profile
-        </Link>
-        <Link className={linkClasses("bookings")} to={"/account/bookings"}>
-          My Bookings
-        </Link>
-        <Link
-          className={linkClasses("experiences")}
-          to={"/account/experiences"}
-        >
-          My Experiences
-        </Link>
-      </nav>
+      <AccountNav />
       {subpage === "profile" && (
         <div className="text-center max-w-lg mx-auto">
           Logged in as {user.name} ({user.email})<br />
@@ -72,4 +49,4 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+export default ProfilePage;

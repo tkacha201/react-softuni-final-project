@@ -11,8 +11,8 @@ const experienceSchema = new mongoose.Schema({
   description: String,
   perks: [String],
   extraInfo: String,
-  duration: Number,
-  maxGroupSize: Number,
+  duration: String,
+  maxGroupSize: String,
 });
 
 const ExperienceModel = mongoose.model("Experience", experienceSchema);
