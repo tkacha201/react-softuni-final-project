@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
 const fs = require("fs");
+const BookingModel = require("./models/Booking.js");
 require("dotenv").config();
 const app = express();
 
@@ -195,6 +196,37 @@ app.put("/experiences", async (req, res) => {
 
 app.get("/experiences", async (req, res) => {
   res.json(await Experience.find());
+});
+
+app.delete("/experiences/:id", async (req, res) => {
+  const { token } = req.cookies;
+  const { id } = req.params;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const experienceObj = await Experience.findById(id);
+    if (userData.id === experienceObj.owner.toString()) {
+      await Experience.findByIdAndDelete(id);
+      res.json("ok");
+    }
+  });
+});
+
+app.post("/booking", (req, res) => {
+  const { experience, date, groupSize, name, mobile } = req.body;
+
+  BookingModel.create({
+    experience,
+    date,
+    groupSize,
+    name,
+    mobile,
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
 app.listen(4000);
