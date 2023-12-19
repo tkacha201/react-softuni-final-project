@@ -9,6 +9,7 @@ import { UserContextProvider } from "./UserContext";
 import ProfilePage from "./pages/ProfilePage";
 import ExperiencesPage from "./pages/ExperiencesPage";
 import ExperiencesFormPage from "./pages/ExperiencesFormPage";
+import ExperiencePage from "./pages/ExperiencePage";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ function App() {
             path="/account/experiences/:id"
             element={<ExperiencesFormPage />}
           />
+          <Route path="/experience/:id" element={<ExperiencePage />} />
         </Route>
       </Routes>
     </UserContextProvider>
