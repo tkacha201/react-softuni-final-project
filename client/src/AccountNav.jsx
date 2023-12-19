@@ -21,9 +21,9 @@ const AccountNav = () => {
       <Link className={linkClasses("profile")} to={"/account"}>
         My Profile
       </Link>
-      <Link className={linkClasses("bookings")} to={"/account/bookings"}>
+      {/* <Link className={linkClasses("bookings")} to={"/account/bookings"}>
         My Bookings
-      </Link>
+      </Link> */}
       <Link className={linkClasses("experiences")} to={"/account/experiences"}>
         My Experiences
       </Link>
