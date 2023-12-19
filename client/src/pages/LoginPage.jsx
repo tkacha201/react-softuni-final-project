@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../UserContext";
@@ -9,10 +8,18 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState("");
   const { setUser } = useContext(UserContext);
 
   async function handleLogin(e) {
     e.preventDefault();
+
+    // Simple validation
+    if (!email || !password) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+
     try {
       const userInfo = await axios.post("/login", { email, password });
       if (userInfo.data.message === "password is ok") {
@@ -20,10 +27,10 @@ const LoginPage = () => {
         alert("Login successful");
         setRedirect(true);
       } else {
-        alert("Login failed");
+        setError("Login failed");
       }
     } catch (err) {
-      alert("Login failed");
+      setError("Login failed");
     }
   }
 
@@ -48,6 +55,7 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <div className="text-red-500">{error}</div>}
           <button className="primary">Sign in</button>
           <div className="text-center py-2 text-gray-500">
             Not a member?

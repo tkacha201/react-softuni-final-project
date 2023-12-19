@@ -53,6 +53,18 @@ const ExperiencesFormPage = () => {
 
   async function saveExperience(e) {
     e.preventDefault();
+
+    if (
+      !title ||
+      !address ||
+      !description ||
+      !duration ||
+      !maxGroupSize ||
+      !price
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
     const experienceData = {
       title,
       address,
@@ -83,14 +95,14 @@ const ExperiencesFormPage = () => {
     <div>
       <AccountNav />
       <form onSubmit={saveExperience}>
-        {preInput("Title", " Captivate your guests with a fun title")}
+        {preInput("Title*", " Captivate your guests with a fun title")}
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title, for example: My Awesome Experience"
         />
-        {preInput("Address", "Where can people find you?")}
+        {preInput("Address*", "Where can people find you?")}
         <input
           type="text"
           placeholder="address"
@@ -99,7 +111,7 @@ const ExperiencesFormPage = () => {
         />
         {preInput("Photos", "Add some photos of your experience")}
         <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
-        {preInput("Description", "Tell us about your experience")}
+        {preInput("Description*", "Tell us about your experience")}
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -117,12 +129,12 @@ const ExperiencesFormPage = () => {
           onChange={(e) => setExtraInfo(e.target.value)}
         />
         {preInput(
-          "Duration & Max Group Size",
+          "Duration & Max Group Size*",
           "Specify the duration of the experience and the maximum size of the participant group."
         )}
         <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
           <div>
-            <h3 className="mt-2 -mb-1">Duration</h3>
+            <h3 className="mt-2 -mb-1">Duration*</h3>
             <input
               type="text"
               value={duration}
@@ -131,7 +143,7 @@ const ExperiencesFormPage = () => {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Max group size</h3>
+            <h3 className="mt-2 -mb-1">Max group size*</h3>
             <input
               type="text"
               value={maxGroupSize}
@@ -140,7 +152,7 @@ const ExperiencesFormPage = () => {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Price per person</h3>
+            <h3 className="mt-2 -mb-1">Price per person*</h3>
             <input
               type="number"
               value={price}
